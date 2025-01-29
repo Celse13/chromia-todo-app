@@ -1,0 +1,43 @@
+operation create_todo(todo_id: rowid, text: text, description: text, due_date: integer? = null) {
+    val account = auth.authenticate();
+    val user = user @ { account };
+    
+    create todo(
+        id = todo_id,
+        user = user,
+        text = text,
+        description = description,
+        done = false,
+        due_date = due_date ?: 0
+    );
+}
+
+operation update_todo(todo_id: rowid, text: text, description: text, due_date: integer? = null) {
+    val account = auth.authenticate();
+    val user = user @ { account };
+    val todo_item = require(todo @? { .id == todo_id, .user == user }, "Todo not found");
+    
+    update todo_item ( 
+        text = text,
+        description = description,
+        due_date = due_date ?: todo_item.due_date
+    );
+}
+
+
+operation delete_todo(todo_id: rowid) {
+    val account = auth.authenticate();
+    val user = user @ { account };
+    val todo_item = require(todo @? { .id == todo_id, .user == user }, "Todo not found");
+    delete todo_item;
+}
+
+operation toggle_todo_status(todo_id: rowid) {
+    val account = auth.authenticate();
+    val user = user @ { account };
+    val todo_item = require(todo @? { .id == todo_id, .user == user }, "Todo not found");
+    
+    update todo_item (
+        done = not(todo_item.done)
+    );
+}

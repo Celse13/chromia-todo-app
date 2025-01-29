@@ -1,0 +1,49 @@
+query get_todos(
+    account_id: byte_array,
+    pointer: integer,
+    n_todos: integer,
+    is_done: boolean?, // null for all, true for completed, false for pending
+    sort_due_date: boolean = false
+): (pointer: integer, todos: list<todo_dto>) {
+    val user = user @ { account_id };
+    
+    val todos = todo @* { 
+        .user == user,
+        is_done == null or .done == is_done
+    } (
+        @omit @sort_desc .timestamp,
+        todo_dto(
+            user = .user.to_struct(),
+            .id,
+            .text,
+            .description,
+            .done,
+            .due_date,
+            .timestamp
+        )
+    ) offset pointer limit n_todos;
+
+    return (
+        pointer = pointer + todos.size(),
+        todos = todos
+    );
+}
+
+query get_todo(account_id: byte_array, todo_id: rowid): todo_dto? {
+    val user = user @ { account_id };
+    
+    return todo @? { 
+        .id == todo_id, 
+        .user == user 
+    } (
+        todo_dto(
+            user = .user.to_struct(),
+            .id,
+            .text,
+            .description,
+            .done,
+            .timestamp,
+            .due_date
+        )
+    );
+}

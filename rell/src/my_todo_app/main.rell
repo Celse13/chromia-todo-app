@@ -1,0 +1,8 @@
+module;
+
+import ^.todo_app.*;
+import ^.registration.*;
+
+query list_accounts() = account @* { } ( $.to_struct() );
+
+

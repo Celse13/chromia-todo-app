@@ -1,0 +1,25 @@
+blockchains:
+  newschain_ch5:
+    module: my_todo_app.main
+    moduleArgs:
+      lib.ft4.core.auth:
+        evm_signatures_authorized_operations:
+          - register_user
+      lib.ft4.core.accounts:
+        auth_descriptor:
+          max_number_per_account: 100
+    test:
+      modules:
+        # - my_todo_app.test
+        - my_todo_app.registration.test
+compile:
+  rellVersion: 0.13.5
+database:
+  schema: schema_newschain
+libs:
+  ft4:
+    registry: https://bitbucket.org/chromawallet/ft3-lib
+    path: rell/src/lib/ft4
+    tagOrBranch: v0.8.0r
+    rid: x"B6AE6AC82AC735BFB9E4E412FFB76BF95380E94F371F5F6A14E71A3AA7D5FEF6"
+    insecure: false

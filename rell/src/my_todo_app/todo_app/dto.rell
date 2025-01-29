@@ -1,0 +1,14 @@
+struct user_dto {
+  id: byte_array;
+  name: text;
+}
+
+struct todo_dto {
+  user: struct<user>;
+  id: rowid;
+  text: text;
+  description: text;
+  done: boolean;
+  due_date: timestamp?;
+  timestamp: timestamp;
+}

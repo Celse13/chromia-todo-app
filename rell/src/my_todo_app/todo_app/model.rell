@@ -1,0 +1,15 @@
+entity user {
+  mutable name;
+  key id: byte_array;
+  key account;
+}
+
+entity todo {
+  key id: rowid;
+  index user: user;
+  mutable text: text;
+  mutable description: text;
+  mutable done: boolean;
+  mutable due_date: integer = 0;
+  timestamp = op_context.last_block_time;
+}
