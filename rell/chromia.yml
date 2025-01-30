@@ -1,5 +1,5 @@
 blockchains:
-  newschain_ch5:
+  my_todo_app:
     module: my_todo_app.main
     moduleArgs:
       lib.ft4.core.auth:
@@ -15,7 +15,7 @@ blockchains:
 compile:
   rellVersion: 0.13.5
 database:
-  schema: schema_newschain
+  schema: schema_my_todo_app
 libs:
   ft4:
     registry: https://bitbucket.org/chromawallet/ft3-lib

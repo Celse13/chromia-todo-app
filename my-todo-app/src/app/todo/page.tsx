@@ -4,7 +4,7 @@ import TodoItem from '@/components/TodoItem'
 import Header from '@/components/Header'
 import NewTodo from './new-todo'
 import { useTodos } from '@/hooks/todo'
-import { useState } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 
@@ -13,7 +13,7 @@ export default function Todo() {
   const [sortByDueDate, setSortByDueDate] = useState(false);
   const { todos, isLoading, reload } = useTodos(0, 10, status, sortByDueDate);
 
-  const handleStatusChange = (value: string) => {
+  const handleStatusChange = useCallback((value: string) => {
     switch(value) {
       case 'completed':
         setStatus(true);
@@ -25,19 +25,25 @@ export default function Todo() {
         setStatus(undefined);
         break;
     }
-  };
+  }, []);
 
-  const handleSortToggle = () => {
+  const handleSortToggle = useCallback(() => {
     setSortByDueDate(prev => !prev);
-  };
+  }, []);
 
+  useEffect(() => {
+    reload();
+  }, [status, sortByDueDate, reload]);
   return (
     <div className='container mx-auto px-5 mt-8 sm:w-full md:w-9/12 lg:w-7/12'>
       <div className='w-full'>
         <Header />
         <div className='mt-20'>
           <div className="flex gap-4 mb-4">
-            <Select onValueChange={handleStatusChange}>
+            <Select 
+              onValueChange={handleStatusChange}
+              value={status === undefined ? 'all' : status ? 'completed' : 'pending'}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
@@ -82,5 +88,5 @@ export default function Todo() {
         </div>
       </div>
     </div>
-  );
+  ); 
 }

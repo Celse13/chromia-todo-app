@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { Button } from "./ui/button"
 import { CheckCircle } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useSessionContext } from "./ContextProvider"
 import { createClient } from "postchain-client"
@@ -14,6 +14,13 @@ export function Nav() {
   const [isConnecting, setIsConnecting] = useState(false);
   const session = useSessionContext();
   const router = useRouter();
+
+  // Add effect to handle redirection when session changes
+  useEffect(() => {
+    if (session) {
+      router.push('/todo');
+    }
+  }, [session, router]);
 
   const handleGetStarted = async () => {
     if (!window.ethereum) {
@@ -34,46 +41,40 @@ export function Nav() {
         })
       );
 
-      // 2. Connect with metamask
       const evmKeyStore = await createWeb3ProviderEvmKeyStore(window.ethereum);
 
-      // 3. Get all accounts associated with evm address
       const evmKeyStoreInteractor = createKeyStoreInteractor(client, evmKeyStore);
       const accounts = await evmKeyStoreInteractor.getAccounts();
 
-      let newSession;
-      if (accounts.length > 0) {
-        // 4. Start a new session
-        const { session: loginSession } = await evmKeyStoreInteractor.login({
-          accountId: accounts[0].id,
-          config: {
-            rules: ttlLoginRule(hours(2)),
-            flags: ["S"]
-          }
-        });
-        newSession = loginSession;
-      } else {
-        // 5. Create a new account
-        const authDescriptor = createSingleSigAuthDescriptorRegistration(["A", "T"], evmKeyStore.id);
-        const { session: registerSession } = await registerAccount(client, evmKeyStore, registrationStrategy.open(authDescriptor, {
-          config: {
-            rules: ttlLoginRule(hours(2)),
-            flags: ["S"]
-          }
-        }), {
-          name: "register_user", args: [getRandomUserName()]
-        });
-        newSession = registerSession;
-      }
-
-      // Wait for session to be set
-      if (newSession) {
-        // 6. Redirect to todo page after successful connection
-        router.push('/todo');
+      try {
+        if (accounts.length > 0) {
+          // 4. Start a new session
+          await evmKeyStoreInteractor.login({
+            accountId: accounts[0].id,
+            config: {
+              rules: ttlLoginRule(hours(2)),
+              flags: ["S"]
+            }
+          });
+        } else {
+          const authDescriptor = createSingleSigAuthDescriptorRegistration(["A", "T"], evmKeyStore.id);
+          await registerAccount(client, evmKeyStore, registrationStrategy.open(authDescriptor, {
+            config: {
+              rules: ttlLoginRule(hours(2)),
+              flags: ["S"]
+            }
+          }), {
+            name: "register_user", args: [getRandomUserName()]
+          });
+        }
+      } catch (error) {
+        console.error("Authentication failed:", error);
+        alert("Failed to authenticate with MetaMask. Please try again.");
       }
 
     } catch (error) {
       console.error("Failed to connect:", error);
+      alert("Failed to connect to MetaMask. Please try again.");
     } finally {
       setIsConnecting(false);
     }
@@ -103,4 +104,3 @@ export function Nav() {
     </header>
   )
 }
-
