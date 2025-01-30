@@ -7,11 +7,16 @@ import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { Loader2 } from "lucide-react"
 
-export default function NewTodo() {
+
+interface NewTodoProps {
+  onUpdate?: () => void;
+}
+
+export default function NewTodo({ onUpdate }: NewTodoProps) {
   const [text, setText] = useState("")
   const [description, setDescription] = useState("")
   const [dueDate, setDueDate] = useState<string>("")
-  const { createTodo, isLoading } = useCreateTodo()
+  const { createTodo, isLoading } = useCreateTodo(onUpdate)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

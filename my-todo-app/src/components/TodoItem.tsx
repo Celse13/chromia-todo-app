@@ -44,20 +44,16 @@ export default function TodoItem({ todo, onUpdate }: TodoItemProps) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
 
-  const { updateStatus, isLoading: isUpdatingStatus } = useUpdateStatus()
-  const { deleteTodo, isLoading: isDeleting } = useDeleteTodo()
+  const { updateStatus, isLoading: isUpdatingStatus } = useUpdateStatus(onUpdate)
+  const { deleteTodo, isLoading: isDeleting } = useDeleteTodo(onUpdate)
 
   const handleDoneTask = async () => {
-    const success = await updateStatus(todo.id)
-    if (success) {
-      onUpdate?.();
-    }
+    await updateStatus(todo.id);
   }
 
   const handleDeleteTodo = async () => {
     const success = await deleteTodo(todo.id)
     if (success) {
-      onUpdate?.();
       setIsDeleteDialogOpen(false)
     }
   }
@@ -142,6 +138,7 @@ export default function TodoItem({ todo, onUpdate }: TodoItemProps) {
                 task={todo.text}
                 description={todo.description}
                 setIsEditDialogOpen={setIsEditDialogOpen}
+                onUpdate={onUpdate}
               />
             </Dialog>
           </div>

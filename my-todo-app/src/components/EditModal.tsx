@@ -12,7 +12,6 @@ import type { TodoDto } from "@/lib/schema"
 import { useUpdateTodo } from "@/hooks/todo"
 import { Textarea } from "./ui/textarea"
 import { cn } from "@/lib/utils"
-import { z } from "zod"
 
 interface EditTaskModalProps {
   id: Buffer
@@ -40,7 +39,7 @@ export default function EditTaskModal({ id, task, description = "", setIsEditDia
   const onSubmit: SubmitHandler<TodoDto> = async (data) => {
     const success = await updateTodo(id, data.text, data.description || "")
     if (success) {
-      onUpdate?.()
+      onUpdate?.();
       setIsEditDialogOpen(false)
     }
   }
