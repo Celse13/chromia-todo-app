@@ -4,8 +4,8 @@ A decentralized Todo application built on Chromia blockchain with Next.js and Me
 
 ## Author
 - Name: Celse13
-- Email: [Add your email here]
-- GitHub: [Add your GitHub profile link]
+- Email: rugiracelse13@gmail.com
+- GitHub: [https://github.com/Celse13](https://github.com/Celse13)
 
 ## Demo
 
