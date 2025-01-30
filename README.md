@@ -2,6 +2,11 @@
 
 A decentralized Todo application built on Chromia blockchain with Next.js and MetaMask integration.
 
+## Author
+- Name: Celse13
+- Email: [Add your email here]
+- GitHub: [Add your GitHub profile link]
+
 ## Demo
 
 🎥 [Watch the demo video](https://www.loom.com/share/da119cb301494eebbcb8b130c58e97aa?sid=6df344dc-6ca5-4dfc-b075-f81d149383a9) to see the application in action!
@@ -79,12 +84,12 @@ npm run dev
 ├── my-todo-app/         # Frontend application
 │   ├── src/
 │   │   ├── app/        # Next.js pages
-│   │   ├── components/ # React components
-│   │   ├── hooks/      # Custom React hooks
-│   │   └── lib/        # Utilities and helpers
-│   └── public/         # Static assets
-└── rell/               # Blockchain code
-    └── src/            # Rell source files
+│   │   │   ├── components/ # React components
+│   │   │   └── lib/        # Utilities and helpers
+│   │   └── public/         # Static assets
+│   └── rell/               # Blockchain code
+│       └── src/            # Rell source files
+└── README.md
 ```
 
 ## Technology Stack
@@ -131,3 +136,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## How It Works
+
+The application works through the following flow:
+1. Users connect their MetaMask wallet for authentication
+2. Todo data is stored on the Chromia blockchain, ensuring decentralization and data integrity
+3. The frontend communicates with the blockchain through [explain the interaction method]
+4. Real-time updates are achieved through [explain the update mechanism]
+5. All transactions are signed using MetaMask and recorded on the blockchain
