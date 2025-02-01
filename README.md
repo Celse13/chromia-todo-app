@@ -145,3 +145,21 @@ The application works through the following flow:
 3. The frontend communicates with the blockchain through [explain the interaction method]
 4. Real-time updates are achieved through [explain the update mechanism]
 5. All transactions are signed using MetaMask and recorded on the blockchain
+
+## Application Preview
+
+### Landing Page
+![Landing Page](https://github.com/user-attachments/assets/205181b8-6992-48bd-833a-e2104b3d2cac)
+*The welcoming interface of our Todo App with MetaMask integration*
+
+### Authentication
+![Authentication Page](https://github.com/user-attachments/assets/df88ca5f-8612-4647-992f-79025ce7b4a0)
+*Secure MetaMask authentication process*
+
+### Todo Management
+![Todo Management](https://github.com/user-attachments/assets/4c3fed82-472a-4652-abb3-f626fb27d3b7)
+*Intuitive interface for managing your todos*
+
+### Task Organization
+![Task Organization](https://github.com/user-attachments/assets/304a860c-8663-405e-acfa-cf3deca0a938)
+*Efficient task organization and status management*
